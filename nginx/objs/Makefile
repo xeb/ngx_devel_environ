@@ -9,12 +9,9 @@ ALL_INCS = -I src/core \
 	-I src/event \
 	-I src/event/modules \
 	-I src/os/unix \
-	-I ../ngx_devel_kit/objs \
-	-I objs/addon/ndk \
 	-I objs \
 	-I src/http \
 	-I src/http/modules \
-	-I ../ngx_devel_kit/src \
 	-I src/mail
 
 
@@ -70,9 +67,8 @@ CORE_DEPS = src/core/nginx.h \
 	src/os/unix/ngx_os.h \
 	src/os/unix/ngx_user.h \
 	src/os/unix/ngx_process_cycle.h \
-	src/os/unix/ngx_linux_config.h \
-	src/os/unix/ngx_linux.h \
-	src/core/ngx_regex.h \
+	src/os/unix/ngx_darwin_config.h \
+	src/os/unix/ngx_darwin.h \
 	objs/ngx_auto_config.h
 
 
@@ -80,8 +76,6 @@ CORE_INCS = -I src/core \
 	-I src/event \
 	-I src/event/modules \
 	-I src/os/unix \
-	-I ../ngx_devel_kit/objs \
-	-I objs/addon/ndk \
 	-I objs
 
 
@@ -99,8 +93,7 @@ HTTP_DEPS = src/http/ngx_http.h \
 
 
 HTTP_INCS = -I src/http \
-	-I src/http/modules \
-	-I ../ngx_devel_kit/src
+	-I src/http/modules
 
 
 ADDON_DEPS = $(CORE_DEPS)  $(HTTP_DEPS)
@@ -161,10 +154,9 @@ objs/nginx:	objs/src/core/nginx.o \
 	objs/src/os/unix/ngx_posix_init.o \
 	objs/src/os/unix/ngx_user.o \
 	objs/src/os/unix/ngx_process_cycle.o \
-	objs/src/os/unix/ngx_linux_init.o \
-	objs/src/event/modules/ngx_epoll_module.o \
-	objs/src/os/unix/ngx_linux_sendfile_chain.o \
-	objs/src/core/ngx_regex.o \
+	objs/src/os/unix/ngx_darwin_init.o \
+	objs/src/event/modules/ngx_kqueue_module.o \
+	objs/src/os/unix/ngx_darwin_sendfile_chain.o \
 	objs/src/http/ngx_http.o \
 	objs/src/http/ngx_http_core_module.o \
 	objs/src/http/ngx_http_special_response.o \
@@ -202,7 +194,6 @@ objs/nginx:	objs/src/core/nginx.o \
 	objs/src/http/modules/ngx_http_map_module.o \
 	objs/src/http/modules/ngx_http_split_clients_module.o \
 	objs/src/http/modules/ngx_http_referer_module.o \
-	objs/src/http/modules/ngx_http_rewrite_module.o \
 	objs/src/http/modules/ngx_http_proxy_module.o \
 	objs/src/http/modules/ngx_http_fastcgi_module.o \
 	objs/src/http/modules/ngx_http_uwsgi_module.o \
@@ -213,7 +204,7 @@ objs/nginx:	objs/src/core/nginx.o \
 	objs/src/http/modules/ngx_http_upstream_ip_hash_module.o \
 	objs/src/http/modules/ngx_http_upstream_least_conn_module.o \
 	objs/src/http/modules/ngx_http_upstream_keepalive_module.o \
-	objs/addon/src/ndk.o \
+	objs/addon/ngx_httplog_module/ngx_httplog_module.o \
 	objs/addon/hello/ngx_http_hello_module.o \
 	objs/ngx_modules.o
 
@@ -273,10 +264,9 @@ objs/nginx:	objs/src/core/nginx.o \
 	objs/src/os/unix/ngx_posix_init.o \
 	objs/src/os/unix/ngx_user.o \
 	objs/src/os/unix/ngx_process_cycle.o \
-	objs/src/os/unix/ngx_linux_init.o \
-	objs/src/event/modules/ngx_epoll_module.o \
-	objs/src/os/unix/ngx_linux_sendfile_chain.o \
-	objs/src/core/ngx_regex.o \
+	objs/src/os/unix/ngx_darwin_init.o \
+	objs/src/event/modules/ngx_kqueue_module.o \
+	objs/src/os/unix/ngx_darwin_sendfile_chain.o \
 	objs/src/http/ngx_http.o \
 	objs/src/http/ngx_http_core_module.o \
 	objs/src/http/ngx_http_special_response.o \
@@ -314,7 +304,6 @@ objs/nginx:	objs/src/core/nginx.o \
 	objs/src/http/modules/ngx_http_map_module.o \
 	objs/src/http/modules/ngx_http_split_clients_module.o \
 	objs/src/http/modules/ngx_http_referer_module.o \
-	objs/src/http/modules/ngx_http_rewrite_module.o \
 	objs/src/http/modules/ngx_http_proxy_module.o \
 	objs/src/http/modules/ngx_http_fastcgi_module.o \
 	objs/src/http/modules/ngx_http_uwsgi_module.o \
@@ -325,10 +314,10 @@ objs/nginx:	objs/src/core/nginx.o \
 	objs/src/http/modules/ngx_http_upstream_ip_hash_module.o \
 	objs/src/http/modules/ngx_http_upstream_least_conn_module.o \
 	objs/src/http/modules/ngx_http_upstream_keepalive_module.o \
-	objs/addon/src/ndk.o \
+	objs/addon/ngx_httplog_module/ngx_httplog_module.o \
 	objs/addon/hello/ngx_http_hello_module.o \
 	objs/ngx_modules.o \
-	-lpthread -lcrypt -lpcre -lz
+	-lcrypto -lcrypto -lz
 	
 
 
@@ -724,32 +713,25 @@ objs/src/os/unix/ngx_process_cycle.o:	$(CORE_DEPS) \
 		src/os/unix/ngx_process_cycle.c
 
 
-objs/src/os/unix/ngx_linux_init.o:	$(CORE_DEPS) \
-	src/os/unix/ngx_linux_init.c
+objs/src/os/unix/ngx_darwin_init.o:	$(CORE_DEPS) \
+	src/os/unix/ngx_darwin_init.c
 	$(CC) -c $(CFLAGS) $(CORE_INCS) \
-		-o objs/src/os/unix/ngx_linux_init.o \
-		src/os/unix/ngx_linux_init.c
+		-o objs/src/os/unix/ngx_darwin_init.o \
+		src/os/unix/ngx_darwin_init.c
 
 
-objs/src/event/modules/ngx_epoll_module.o:	$(CORE_DEPS) \
-	src/event/modules/ngx_epoll_module.c
+objs/src/event/modules/ngx_kqueue_module.o:	$(CORE_DEPS) \
+	src/event/modules/ngx_kqueue_module.c
 	$(CC) -c $(CFLAGS) $(CORE_INCS) \
-		-o objs/src/event/modules/ngx_epoll_module.o \
-		src/event/modules/ngx_epoll_module.c
+		-o objs/src/event/modules/ngx_kqueue_module.o \
+		src/event/modules/ngx_kqueue_module.c
 
 
-objs/src/os/unix/ngx_linux_sendfile_chain.o:	$(CORE_DEPS) \
-	src/os/unix/ngx_linux_sendfile_chain.c
+objs/src/os/unix/ngx_darwin_sendfile_chain.o:	$(CORE_DEPS) \
+	src/os/unix/ngx_darwin_sendfile_chain.c
 	$(CC) -c $(CFLAGS) $(CORE_INCS) \
-		-o objs/src/os/unix/ngx_linux_sendfile_chain.o \
-		src/os/unix/ngx_linux_sendfile_chain.c
-
-
-objs/src/core/ngx_regex.o:	$(CORE_DEPS) \
-	src/core/ngx_regex.c
-	$(CC) -c $(CFLAGS) $(CORE_INCS) \
-		-o objs/src/core/ngx_regex.o \
-		src/core/ngx_regex.c
+		-o objs/src/os/unix/ngx_darwin_sendfile_chain.o \
+		src/os/unix/ngx_darwin_sendfile_chain.c
 
 
 objs/src/http/ngx_http.o:	$(CORE_DEPS) $(HTTP_DEPS) \
@@ -1011,13 +993,6 @@ objs/src/http/modules/ngx_http_referer_module.o:	$(CORE_DEPS) $(HTTP_DEPS) \
 		src/http/modules/ngx_http_referer_module.c
 
 
-objs/src/http/modules/ngx_http_rewrite_module.o:	$(CORE_DEPS) $(HTTP_DEPS) \
-	src/http/modules/ngx_http_rewrite_module.c
-	$(CC) -c $(CFLAGS) $(CORE_INCS) $(HTTP_INCS) \
-		-o objs/src/http/modules/ngx_http_rewrite_module.o \
-		src/http/modules/ngx_http_rewrite_module.c
-
-
 objs/src/http/modules/ngx_http_proxy_module.o:	$(CORE_DEPS) $(HTTP_DEPS) \
 	src/http/modules/ngx_http_proxy_module.c
 	$(CC) -c $(CFLAGS) $(CORE_INCS) $(HTTP_INCS) \
@@ -1088,11 +1063,11 @@ objs/src/http/modules/ngx_http_upstream_keepalive_module.o:	$(CORE_DEPS) $(HTTP_
 		src/http/modules/ngx_http_upstream_keepalive_module.c
 
 
-objs/addon/src/ndk.o:	$(ADDON_DEPS) \
-	../ngx_devel_kit/src/ndk.c
+objs/addon/ngx_httplog_module/ngx_httplog_module.o:	$(ADDON_DEPS) \
+	../ngx_httplog_module/ngx_httplog_module.c
 	$(CC) -c $(CFLAGS)  $(ALL_INCS) \
-		-o objs/addon/src/ndk.o \
-		../ngx_devel_kit/src/ndk.c
+		-o objs/addon/ngx_httplog_module/ngx_httplog_module.o \
+		../ngx_httplog_module/ngx_httplog_module.c
 
 
 objs/addon/hello/ngx_http_hello_module.o:	$(ADDON_DEPS) \

@@ -9,8 +9,7 @@ extern ngx_module_t  ngx_errlog_module;
 extern ngx_module_t  ngx_conf_module;
 extern ngx_module_t  ngx_events_module;
 extern ngx_module_t  ngx_event_core_module;
-extern ngx_module_t  ngx_epoll_module;
-extern ngx_module_t  ngx_regex_module;
+extern ngx_module_t  ngx_kqueue_module;
 extern ngx_module_t  ngx_http_module;
 extern ngx_module_t  ngx_http_core_module;
 extern ngx_module_t  ngx_http_log_module;
@@ -26,7 +25,6 @@ extern ngx_module_t  ngx_http_geo_module;
 extern ngx_module_t  ngx_http_map_module;
 extern ngx_module_t  ngx_http_split_clients_module;
 extern ngx_module_t  ngx_http_referer_module;
-extern ngx_module_t  ngx_http_rewrite_module;
 extern ngx_module_t  ngx_http_proxy_module;
 extern ngx_module_t  ngx_http_fastcgi_module;
 extern ngx_module_t  ngx_http_uwsgi_module;
@@ -37,7 +35,7 @@ extern ngx_module_t  ngx_http_browser_module;
 extern ngx_module_t  ngx_http_upstream_ip_hash_module;
 extern ngx_module_t  ngx_http_upstream_least_conn_module;
 extern ngx_module_t  ngx_http_upstream_keepalive_module;
-extern ngx_module_t  ndk_http_module;
+extern ngx_module_t  ngx_httplog_module;
 extern ngx_module_t  ngx_http_hello_module;
 extern ngx_module_t  ngx_http_write_filter_module;
 extern ngx_module_t  ngx_http_header_filter_module;
@@ -59,8 +57,7 @@ ngx_module_t *ngx_modules[] = {
     &ngx_conf_module,
     &ngx_events_module,
     &ngx_event_core_module,
-    &ngx_epoll_module,
-    &ngx_regex_module,
+    &ngx_kqueue_module,
     &ngx_http_module,
     &ngx_http_core_module,
     &ngx_http_log_module,
@@ -76,7 +73,6 @@ ngx_module_t *ngx_modules[] = {
     &ngx_http_map_module,
     &ngx_http_split_clients_module,
     &ngx_http_referer_module,
-    &ngx_http_rewrite_module,
     &ngx_http_proxy_module,
     &ngx_http_fastcgi_module,
     &ngx_http_uwsgi_module,
@@ -87,7 +83,7 @@ ngx_module_t *ngx_modules[] = {
     &ngx_http_upstream_ip_hash_module,
     &ngx_http_upstream_least_conn_module,
     &ngx_http_upstream_keepalive_module,
-    &ndk_http_module,
+    &ngx_httplog_module,
     &ngx_http_hello_module,
     &ngx_http_write_filter_module,
     &ngx_http_header_filter_module,

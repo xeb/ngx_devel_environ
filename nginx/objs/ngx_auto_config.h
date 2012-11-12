@@ -1,7 +1,7 @@
-#define NGX_CONFIGURE " --add-module=../ngx_devel_kit --add-module=../hello"
+#define NGX_CONFIGURE " --without-http_rewrite_module --add-module=../ngx_httplog_module --add-module=../hello"
 
 #ifndef NGX_COMPILER
-#define NGX_COMPILER  "gcc 4.1.2 20080704 (Red Hat 4.1.2-52)"
+#define NGX_COMPILER  "gcc 4.2.1 (Based on Apple Inc. build 5658) (LLVM build 2336.1.00)"
 #endif
 
 
@@ -20,8 +20,8 @@
 #endif
 
 
-#ifndef NGX_HAVE_EPOLL
-#define NGX_HAVE_EPOLL  1
+#ifndef NGX_HAVE_KQUEUE
+#define NGX_HAVE_KQUEUE  1
 #endif
 
 
@@ -30,28 +30,23 @@
 #endif
 
 
+#ifndef NGX_HAVE_TIMER_EVENT
+#define NGX_HAVE_TIMER_EVENT  1
+#endif
+
+
 #ifndef NGX_HAVE_SENDFILE
 #define NGX_HAVE_SENDFILE  1
 #endif
 
 
-#ifndef NGX_HAVE_SENDFILE64
-#define NGX_HAVE_SENDFILE64  1
+#ifndef NGX_HAVE_SENDFILE
+#define NGX_HAVE_SENDFILE  1
 #endif
 
 
-#ifndef NGX_HAVE_PR_SET_DUMPABLE
-#define NGX_HAVE_PR_SET_DUMPABLE  1
-#endif
-
-
-#ifndef NGX_HAVE_SCHED_SETAFFINITY
-#define NGX_HAVE_SCHED_SETAFFINITY  1
-#endif
-
-
-#ifndef NGX_HAVE_GNU_CRYPT_R
-#define NGX_HAVE_GNU_CRYPT_R  1
+#ifndef NGX_DARWIN_ATOMIC
+#define NGX_DARWIN_ATOMIC  1
 #endif
 
 
@@ -68,18 +63,8 @@
 #define NGX_KQUEUE_UDATA_T  (void *)
 
 
-#ifndef NGX_HAVE_POSIX_FADVISE
-#define NGX_HAVE_POSIX_FADVISE  1
-#endif
-
-
-#ifndef NGX_HAVE_O_DIRECT
-#define NGX_HAVE_O_DIRECT  1
-#endif
-
-
-#ifndef NGX_HAVE_ALIGNED_DIRECTIO
-#define NGX_HAVE_ALIGNED_DIRECTIO  1
+#ifndef NGX_HAVE_F_NOCACHE
+#define NGX_HAVE_F_NOCACHE  1
 #endif
 
 
@@ -95,16 +80,6 @@
 
 #ifndef NGX_HAVE_SCHED_YIELD
 #define NGX_HAVE_SCHED_YIELD  1
-#endif
-
-
-#ifndef NGX_HAVE_DEFERRED_ACCEPT
-#define NGX_HAVE_DEFERRED_ACCEPT  1
-#endif
-
-
-#ifndef NGX_HAVE_KEEPALIVE_TUNABLE
-#define NGX_HAVE_KEEPALIVE_TUNABLE  1
 #endif
 
 
@@ -169,7 +144,7 @@
 
 
 #ifndef NGX_SYS_NERR
-#define NGX_SYS_NERR  132
+#define NGX_SYS_NERR  106
 #endif
 
 
@@ -183,28 +158,13 @@
 #endif
 
 
-#ifndef NGX_HAVE_MEMALIGN
-#define NGX_HAVE_MEMALIGN  1
-#endif
-
-
 #ifndef NGX_HAVE_MAP_ANON
 #define NGX_HAVE_MAP_ANON  1
 #endif
 
 
-#ifndef NGX_HAVE_MAP_DEVZERO
-#define NGX_HAVE_MAP_DEVZERO  1
-#endif
-
-
 #ifndef NGX_HAVE_SYSVSHM
 #define NGX_HAVE_SYSVSHM  1
-#endif
-
-
-#ifndef NGX_HAVE_POSIX_SEM
-#define NGX_HAVE_POSIX_SEM  1
 #endif
 
 
@@ -223,6 +183,11 @@
 #endif
 
 
+#ifndef NGX_HAVE_D_NAMLEN
+#define NGX_HAVE_D_NAMLEN  1
+#endif
+
+
 #ifndef NGX_HAVE_D_TYPE
 #define NGX_HAVE_D_TYPE  1
 #endif
@@ -230,11 +195,6 @@
 
 #ifndef NGX_HAVE_SC_NPROCESSORS_ONLN
 #define NGX_HAVE_SC_NPROCESSORS_ONLN  1
-#endif
-
-
-#ifndef NGX_HAVE_OPENAT
-#define NGX_HAVE_OPENAT  1
 #endif
 
 
@@ -268,13 +228,28 @@
 #endif
 
 
-#ifndef NDK
-#define NDK  1
+#ifndef NGX_OPENSSL_MD5
+#define NGX_OPENSSL_MD5  1
 #endif
 
 
-#ifndef NGX_PCRE
-#define NGX_PCRE  1
+#ifndef NGX_HAVE_OPENSSL_MD5_H
+#define NGX_HAVE_OPENSSL_MD5_H  1
+#endif
+
+
+#ifndef NGX_HAVE_MD5
+#define NGX_HAVE_MD5  1
+#endif
+
+
+#ifndef NGX_HAVE_SHA1
+#define NGX_HAVE_SHA1  1
+#endif
+
+
+#ifndef NGX_HAVE_OPENSSL_SHA1_H
+#define NGX_HAVE_OPENSSL_SHA1_H  1
 #endif
 
 
